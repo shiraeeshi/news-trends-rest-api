@@ -3,7 +3,7 @@ services:
     rest-api:
         image: java:latest
         volumes:
-            - ./target/scala-2.11/news-trends-broadcast-rest-api-assembly-0.1-SNAPSHOT.jar:/jar-to-run.jar
+            - ./target/scala-2.11/news-trends-rest-api-assembly-0.1-SNAPSHOT.jar:/jar-to-run.jar
         command: java -jar /jar-to-run.jar
         ports:
             - "9090:9090"
