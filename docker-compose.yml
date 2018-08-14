@@ -1,0 +1,15 @@
+version: '3.5'
+services:
+    rest-api:
+        image: java:latest
+        volumes:
+            - ./target/scala-2.11/news-trends-broadcast-rest-api-assembly-0.1-SNAPSHOT.jar:/jar-to-run.jar
+        command: java -jar /jar-to-run.jar
+        ports:
+            - "9090:9090"
+        networks:
+            - rest_shared-network
+networks:
+    rest_shared-network:
+        external:
+            name: news-trends-shared-network
