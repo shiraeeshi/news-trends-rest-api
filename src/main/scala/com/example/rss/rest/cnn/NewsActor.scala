@@ -7,6 +7,9 @@ import com.example.rss.rest.persistence.SimpleMongoWrapper
 import com.example.rss.rest.model.NewsEntry
 import reactivemongo.bson._
 
+import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.duration._
+
 object NewsActor {
   case object GetNews
 
@@ -31,7 +34,15 @@ class NewsActor extends Actor with JsonSupport {
             .cursor[NewsEntry]()
             .collect[List](25)
         )
-      newsFuture pipeTo sender
 
+      transformToClose(newsFuture) { () =>
+        mongo.futureConnection foreach { conn =>
+          conn.askClose()(10.seconds)
+        }
+      }
+      newsFuture pipeTo sender
   }
+
+  def transformToClose[T](f: Future[T])(closeFunc: () => Unit)(implicit executor: ExecutionContext): Future[Any] =
+    f.transform({ _ => closeFunc() }, { t => closeFunc(); t })
 }
