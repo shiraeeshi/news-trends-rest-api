@@ -1,6 +1,6 @@
 # news-trends-rest-api
 
-The project implements the RESTful API that makes the news (that was saved by ```news-trends-broadcast```) available to the outside world.
+The project implements the RESTful API that makes the news (that was saved by RSS listener) available to the outside world.
 
 ## Prerequisites
 
@@ -8,7 +8,7 @@ You need to have ```sbt``` and ```docker-compose``` installed on your machine.
 
 ## How to run
 
-First go to the ```news-trends-broadcast``` project and issue the following command:
+First go to the RSS listener (either ```news-trends-broadcast``` or ```news-trends-co-partition``` project) and issue the following command:
 
 ```
 sbt assembly
